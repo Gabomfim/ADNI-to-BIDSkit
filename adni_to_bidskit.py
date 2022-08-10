@@ -30,12 +30,15 @@ for index, subject_dir in enumerate(subject_dirs):
 
   session_paths = subject_dir.glob('*/*')
   session_dirs = [session_dir for session_dir in session_paths if session_dir.is_dir()]
+
   for index, session_dir in enumerate(session_dirs):
     new_session_name = str(index+1).zfill(3)
 
     new_session_path = new_subject_path.joinpath(new_session_name)
     new_session_path.mkdir(parents=True, exist_ok=True)
 
-    for index, file_path in enumerate(session_dir.iterdir()):
-      new_file_path = new_session_path.joinpath(get_BIDS_name(file_path.stem)+'.dcm')
-      shutil.copy(file_path, new_file_path)
+    dicom_dir = session_dir.glob('*/*')
+    
+    for index, dicom_file_path in enumerate(dicom_dir):
+      new_dicom_file_path = new_session_path.joinpath(get_BIDS_name(dicom_file_path.stem)+'.dcm')
+      shutil.copy(dicom_file_path, new_dicom_file_path)
