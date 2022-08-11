@@ -1,7 +1,6 @@
 import argparse
 import pathlib
 import shutil
-import json
 
 def get_BIDS_name(dirname):
   return dirname.replace('-','').replace('_','').replace('.','')
@@ -38,7 +37,7 @@ for index, subject_dir in enumerate(subject_dirs):
     new_session_path.mkdir(parents=True, exist_ok=True)
 
     dicom_dir = session_dir.glob('*/*')
-    
+
     for index, dicom_file_path in enumerate(dicom_dir):
       new_dicom_file_path = new_session_path.joinpath(get_BIDS_name(dicom_file_path.stem)+'.dcm')
       shutil.copy(dicom_file_path, new_dicom_file_path)
